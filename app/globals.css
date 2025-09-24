@@ -125,62 +125,47 @@
 }
 
 @layer components {
-  [data-radix-popper-content-wrapper],
-  [data-radix-dropdown-menu-content],
-  [data-radix-dropdown-menu-portal] {
-    z-index: 99999 !important;
-    position: fixed !important;
-  }
+ .custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #444 transparent; /* Cor do thumb e fundo do track */
+}
 
-  [data-radix-dropdown-menu-content] {
-    background: hsl(var(--popover)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: calc(var(--radius) - 2px) !important;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
-    min-width: 8rem !important;
-    overflow: hidden !important;
-    padding: 4px !important;
-    color: hsl(var(--popover-foreground)) !important;
-    animation-duration: 0.15s !important;
-    animation-timing-function: ease-out !important;
-    transform-origin: var(--radix-dropdown-menu-content-transform-origin) !important;
-  }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
 
-  [data-radix-dropdown-menu-item] {
-    position: relative !important;
-    display: flex !important;
-    cursor: pointer !important;
-    user-select: none !important;
-    align-items: center !important;
-    border-radius: calc(var(--radius) - 4px) !important;
-    padding: 6px 8px !important;
-    text-align: left !important;
-    font-size: 14px !important;
-    outline: none !important;
-    transition: background-color 0.15s ease !important;
-  }
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-  [data-radix-dropdown-menu-item]:focus,
-  [data-radix-dropdown-menu-item]:hover {
-    background-color: hsl(var(--accent)) !important;
-    color: hsl(var(--accent-foreground)) !important;
-  }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #444; /* Cinza escuro */
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
 
-  [data-radix-dropdown-menu-item][data-disabled] {
-    color: hsl(var(--muted-foreground)) !important;
-    pointer-events: none !important;
-  }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #666; /* Mais claro no hover */
+}
 
-  /* Garantir que o trigger também funcione */
-  [data-radix-dropdown-menu-trigger] {
-    position: relative !important;
-    z-index: 50 !important;
-  }
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background: #888; /* Ainda mais claro ao clicar */
+}
 
-  /* Overlay para garantir que cliques fora fechem o dropdown */
-  [data-radix-dropdown-menu-overlay] {
-    position: fixed !important;
-    inset: 0 !important;
-    z-index: 99998 !important;
-  }
+/* Scrollbar para modo escuro */
+.dark .custom-scrollbar {
+  scrollbar-color: #222 transparent; /* Mais escuro no dark */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #222;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background: #666;
+}
 }
