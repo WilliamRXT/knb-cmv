@@ -5,8 +5,7 @@ import { useFinancial } from "@/contexts/financial-context"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { MoreHorizontal, Edit, Trash2, Calculator, DollarSign } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Edit, Trash2, Calculator, DollarSign } from "lucide-react"
 import { ProductDetails } from "./product-details"
 import { ProductEditForm } from "./product-edit-form"
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog"
@@ -21,16 +20,13 @@ export function ProductCard({ product }: ProductCardProps) {
   const [showDetails, setShowDetails] = useState(false)
   const [showEditForm, setShowEditForm] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const brand = brands.find((b) => b.id === product.brandId)
   const margin = product.price > 0 ? ((product.price - product.cmv) / product.price) * 100 : 0
   const profit = product.price - product.cmv
 
   const handleDelete = () => {
-    console.log("[v0] Delete clicked")
     setShowDeleteConfirm(true)
-    setDropdownOpen(false)
   }
 
   const confirmDelete = () => {
@@ -39,9 +35,7 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   const handleEdit = () => {
-    console.log("[v0] Edit clicked")
     setShowEditForm(true)
-    setDropdownOpen(false)
   }
 
   return (
@@ -61,91 +55,28 @@ export function ProductCard({ product }: ProductCardProps) {
               </CardDescription>
             </div>
 
-            <DropdownMenu
-              open={dropdownOpen}
-              onOpenChange={(open) => {
-                console.log("[v0] Dropdown state changed:", open)
-                setDropdownOpen(open)
-              }}
-            >
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 data-[state=open]:bg-muted"
-                  onClick={() => {
-                    console.log("[v0] Trigger clicked, current state:", dropdownOpen)
-                  }}
-                >
-                  <MoreHorizontal className="h-4 w-4" />
-                  <span className="sr-only">Abrir menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                side="bottom"
-                sideOffset={4}
-                className="w-48"
-                style={{
-                  zIndex: 99999,
-                  position: "fixed",
-                  backgroundColor: "hsl(var(--popover))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "calc(var(--radius) - 2px)",
-                  boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
-                  minWidth: "8rem",
-                  overflow: "hidden",
-                  padding: "4px",
-                }}
-                onCloseAutoFocus={(e) => e.preventDefault()}
-                onEscapeKeyDown={() => setDropdownOpen(false)}
-                onPointerDownOutside={() => setDropdownOpen(false)}
-                onFocusOutside={() => setDropdownOpen(false)}
-                onInteractOutside={() => setDropdownOpen(false)}
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 hover:bg-muted"
+                onClick={handleEdit}
+                title="Editar produto"
               >
-                <DropdownMenuItem
-                  onClick={handleEdit}
-                  className="cursor-pointer"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    padding: "8px 12px",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                    borderRadius: "calc(var(--radius) - 4px)",
-                    transition: "background-color 0.15s ease",
-                  }}
-                  onSelect={(e) => {
-                    e.preventDefault()
-                    handleEdit()
-                  }}
-                >
-                  <Edit className="h-4 w-4 mr-2" />
-                  Editar
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={handleDelete}
-                  className="text-destructive focus:text-destructive cursor-pointer"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    padding: "8px 12px",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                    borderRadius: "calc(var(--radius) - 4px)",
-                    transition: "background-color 0.15s ease",
-                    color: "hsl(var(--destructive))",
-                  }}
-                  onSelect={(e) => {
-                    e.preventDefault()
-                    handleDelete()
-                  }}
-                >
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  Excluir
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <Edit className="h-4 w-4" />
+                <span className="sr-only">Editar</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 hover:bg-red-50 hover:text-red-600"
+                onClick={handleDelete}
+                title="Excluir produto"
+              >
+                <Trash2 className="h-4 w-4" />
+                <span className="sr-only">Excluir</span>
+              </Button>
+            </div>
           </div>
         </CardHeader>
 
